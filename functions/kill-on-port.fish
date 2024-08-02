@@ -50,7 +50,9 @@ function kill-on-port -d "Kills a process that is using the given port"
       if test -n "$process"
         set -l name (echo $process | awk '{print $1}')
         set -l pid (echo $process | awk '{print $2}')
+        set -l commandline (procs $pid --no-header --only command)
         echo "Found process named $name with process id $pid using port $port"
+        echo -e "\nCommand line:$commandline\n"
         if test $list = 0
           if test $force = 1
             eval "$root kill -9 $pid"
